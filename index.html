@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulaire de contact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      cursor: pointer;
+    }
+  </style>
+</head>
 
+<body>
+
+  <h1>Contact</h1>
+
+  <form id="contactForm">
+    <input name="entreprise" placeholder="Entreprise" required>
+    <input name="nom" placeholder="Nom" required>
+    <input name="email" type="email" placeholder="Email" required>
+    <input name="participants" placeholder="Participants">
+    <textarea name="message" placeholder="Message"></textarea>
+    <button type="submit">Envoyer</button>
+  </form>
+
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+
+      const data = {
+        entreprise: form.entreprise.value,
+        nom: form.nom.value,
+        email: form.email.value,
+        participants: form.participants.value,
+        message: form.message.value
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbx6i9fxsQxAFtU6KHxt1nrbWzi9VVB4M93lC3LRTr7q2uYQD4cSnOIbNt3pQsXCBax7zQ/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.text())
+      .then(() => {
+        alert("Formulaire envoyé ✅");
+        form.reset();
+      })
+      .catch(error => {
+        console.error(error);
+        alert("Erreur d’envoi ❌");
+      });
+    });
+  </script>
+
+</body>
+</html>
